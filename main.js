@@ -48,7 +48,6 @@ window.onload=function(){
     imgComputer.src="Images/BallMan_red.png";
     imgGoal=new Image();
     imgGoal.src="Images/Hi_iamPutting.png";
-    gameDescription();
     initGameValue();
     initView();
     //暫時拿來印個目標
