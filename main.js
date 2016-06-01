@@ -734,12 +734,18 @@ function setDifficult(){
 			}
 			break;
 		case "2": 
-			difficultLevel=225;
+			difficultLevel=250;
 			if(playerExist){
-				timmer=setInterval(computerMove, 225);
+				timmer=setInterval(computerMove, 250);
 			}
 			break;
 		case "3": 
+			difficultLevel=150;
+			if(playerExist){
+				timmer=setInterval(computerMove, 150);
+			}
+			break;
+		case "4":
 			difficultLevel=100;
 			if(playerExist){
 				timmer=setInterval(computerMove, 100);
