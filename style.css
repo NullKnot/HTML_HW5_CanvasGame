@@ -12,3 +12,7 @@
 #myCanvas{
     background-image: url(Images/Light_Wood_Background.jpg);
 }
+
+#btnArea{
+	-ms-touch-action: none;
+}
