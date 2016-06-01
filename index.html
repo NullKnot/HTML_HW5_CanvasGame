@@ -1,325 +1,53 @@
-<!DOCTYPE HTML>
-<!--
-	MegaCorp by TEMPLATED
-    templated.co @templatedco
-    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+<!doctype html>
+<!--防止螢幕雙擊等事件-->
+<meta name="viewport" content="user-scalable=0"/>
 <html>
-	<head>
-		<title>HTML_HW3_Templated</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css" />
-        <link rel="Shortcut Icon" href="images/logo/logo_small.ico" />
-		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-panels.min.js"></script>
-		<script src="js/init.js"></script>
-		<noscript>
-			<link rel="stylesheet" href="css/skel-noscript.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-desktop.css" />
-		</noscript>
-	</head>
-	<body class="homepage">
-
-		<!-- Header -->
-		<div id="header-wrapper">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Game</title>
+    <script src="main.js"></script> 
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <div align="center">
+		<p id="talkBox" style="height:20px">請選擇遊戲設定，並點擊地圖放置角色</p>
+		<span id="scoreBoard">比數>> 玩家 0分 : 電腦 0分</span>
 		
-        	<div id="header" class="container">
-
-                <div id="logo"><h1><a href="index.html"><img src="images/logo/logo_mid.jpg" style="border-radius: 20%; padding-right: 2px">LinChieh.com</a></h1></div>
-                <nav id="nav">
-                    <ul>
-                        <li class="current_page_item"><a href="index.html">Homepage</a></li>
-                        <li><a href="firstHalfOfTerm1-1.html">First half of term</a></li>
-                        <li><a href="nextHalfOfTerm2-1.html">Next half of term</a></li>
-                        <li><a href="#final_project">Final project</a></li>
-                        <li><a href="aboutMe.html">About me</a></li>
-                    </ul>
-                </nav>
-                
-            </div>
-			
-			<div id="banner">
-				<div class="container">
-					<div class="row">
-						<section class="12u">
-							<header>
-								<h2>"Now to work hard, for the unknown future!"</h2>
-								<span class="byline">Welcome to my personal website, I'm Lin Chieh Huang, a National Central University student in Taiwan.
-                                    <br>The website is build for learning HTML, CSS and Javascript.
-                                    <br>Hope you will like and enjoy my website.
-                                    <br>: D</span>
-							</header>
-							<a href="#main_content" class="button button-alt">Read More</a>
-						</section>
-					</div>
-				</div>
-			</div>			
-
+		<div>
+		<span style="font-size: 18px;">遊戲難度：</span>
+		<select id="difficultControl"  onchange="setDifficult()">
+            <option value="1">入門</option>        
+            <option value="2">休閒</option>       
+            <option value="3">刺激</option>
+			<option value="4">瘋狂</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<span style="font-size: 18px;">勝利條件：</span>
+		<select id="scoreControl"  onchange="setScore()">
+            <option value="1">先得5分</option>        
+            <option value="2">先得7分</option>       
+            <option value="3">先得10分</option>
+			<option value="4">無限(99999分)</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="遊戲說明" onclick="gameDescription()" style="font-size:16px; height:25px;margin-bottom:5px;">
+		<input type="button" value="重新開始" onclick="gameRestart()" style="font-size:16px; height:25px;margin-bottom:5px;">
 		</div>
-		<!-- Header Ends Here -->
-
-		<!-- Featured Area -->
-        <a name="main_content"></a>
-			<div id="featured-wrapper">
-				<div class="container">
-                    <h1 style="font-size: 3em;">First half of term</h1> <br><br>
-                    <div class="row double">
-                        <section class="4u">
-                           <header>
-	                           <h2>Where to travel</h2>
-                           </header>
-                            <span class="pennant"><span class="fa fa-plane"></span></span>
-                            <p>
-                                對一成不變的生活感到厭倦了嗎？
-                                <br>週休假日也是窩在家裡等發霉嗎？
-                                <br>是時候給自己一個機會放個假，
-                                <br>好好的去桑一下！
-                            </p>
-                            <a href="firstHalfOfTerm1-1.html" class="button button-style1">Read More</a>
-                        </section>
-                        <section class="4u">
-                            <header>
-	                            <h2>The coming day</h2>
-                            </header>
-                            <span class="pennant"><span class="fa fa-calendar"></span></span>
-                            <p>
-                                每天都有好多事情等著被處理！
-                                <br>要安排出遊、家人聚餐或跟教授面談。
-                                <br>當我們面對不停奔跑的人生，
-                                <br>一定要有妥善的規劃！
-                            </p>
-                            <a href="firstHalfOfTerm1-2.html" class="button button-style1">Read More</a>
-                        </section>
-                        <section class="4u">
-                            <header>
-	                            <h2>Someone with you</h2>
-                            </header>
-                            <span class="pennant"><span class="fa fa-group"></span></span>
-                            <p>
-                                時間從來不曾為誰停過，
-                                <br>在這漫長的人生道路上，
-                                <br>覺得自己是孤單一人嗎？
-                                <br>就讓她們陪你一起經歷度過時光的流逝
-                            </p>
-                            <a href="firstHalfOfTerm1-3.html" class="button button-style1">Read More</a>
-                        </section>
-
-					</div>
-                    <br><br><br>
-                    <h1 style="font-size: 3em;">Next half of term</h1> <br><br>
-                    <div class="row double">
-                        <section class="4u">
-                            <header>
-                                <h2>VideoController</h2>
-                            </header>
-                            <span class="pennant"><span class="fa fa-youtube-play"></span></span>
-                            <p>
-                                一次想在網頁上看兩個影片怎麼辦？
-                                <br>要是有個可以移來移去的遙控器多好？
-                                <br>不管你有沒有過以上這些疑問，
-                                <br>趕快來試試看"VideoController"！
-
-                            </p>
-                            <a href="nextHalfOfTerm2-1.html" class="button button-style1">Read More</a>
-                        </section>
-                        <section class="4u">
-                            <header>
-                                <h2>Ballman's world</h2>
-                            </header>
-                            <span class="pennant"><span class="fa fa-gamepad"></span></span>
-                            <p>
-                                布丁對一個Ballman來說從來不嫌少，
-                                <br>不過布丁從來不會出現在同地方，
-                                <br>趕快進入這魔幻的世界，
-                                <br>幫忙Ballman吃到神奇的布丁！
-                            </p>
-                            <a href="nextHalfOfTerm2-2.html" class="button button-style1">Read More</a>
-                        </section>
-                        <section class="4u">
-                            <header>
-                                <h2>To be continue...</h2>
-                            </header>
-                            <span class="pennant"><span class="fa fa-wrench"></span></span>
-                            <p>
-                                Coming soon...
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                            </p>
-                            <a href="nextHalfOfTerm2-3.html" class="button button-style1">Read More</a>
-                        </section>
-
-                    </div>
-
-				</div>
-				
-			</div>
-		
-		
-		<!-- Featured Ends Here -->
-
-		<!-- Page -->
-            <a name="final_project">
-        	<div id="page">
-            	<div class="container">
-                	<div class="row">
-                    
-                    	<div id="content" class="8u">
-                        	<article>
-                            	<header>
-                                    <h2>Final project</h2>
-                                </header>
-                                <a class="image-style1"><img src="images/pic01.jpg" alt=""></a>
-                                <p>籌備中，敬請期待！</p>
-                                <a href="#" class="button button-style1">Go Top</a>
-                            </article>
-                            <div id="two-column">
-                            	<div class="row">
-                                    <section class="6u">
-                                        <h2>Website update history</h2>
-                                        <p>本網站於2016/04/24號上線，
-											<br>使用http://templated.co的樣本所修改而成，
-											<br>用於放置與展示有關個人在中央大學資管系選修課
-											<br>“系統開發軟體-管理與實務”所製作的專案。</p>
-                                        <ul class="style3">
-                                            <li class="first">
-                                                <p><span class="date" style="padding: 1px 4px; background-color: rgba(245, 128, 6, 0.77)">2016.04.24</span>
-                                                    <span class="heading-title">網站上線</span></p>
-                                                <p>
-                                                    <a>建置首頁與其它頁面。
-                                                    <br>新增以下三個專案：Where to travel、The coming day、Someone with you。
-                                                    </a>
-                                                </p>
-                                            </li>
-                                            <li class="first">
-                                                <p><span class="date" style="padding: 1px 4px; background-color: rgba(245, 128, 6, 0.77)">2016.04.25</span>
-                                                    <span class="heading-title">新增Logo、更動佈局</span></p>
-                                                <p>
-                                                    <a>
-                                                        新增網頁頁面Logo與標籤Logo。
-                                                        <br>個人頁置中、頁面佈局些微更動。
-                                                    </a>
-                                                </p>
-                                            </li>
-                                            <li class="first">
-                                                <p><span class="date" style="padding: 1px 4px; background-color: rgba(245, 128, 6, 0.77)">2016.05.12</span>
-                                                    <span class="heading-title">新增專案</span></p>
-                                                <p>
-                                                    <a>
-                                                        新增第四個專案與專案介紹。
-                                                        <br>部份頁面更新第四個專案的名稱。
-                                                    </a>
-                                                </p>
-                                            </li>
-                                            <li class="first">
-                                                <p><span class="date" style="padding: 1px 4px; background-color: rgba(245, 128, 6, 0.77)">2016.05.30</span>
-                                                    <span class="heading-title">新增專案</span></p>
-                                                <p>
-                                                    <a>
-                                                        新增第五個專案與專案介紹。
-                                                        <br>部份頁面更新第五個專案的名稱。
-                                                    </a>
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </section>
-                                    <section class="6u">
-                                        <h2>個人心情日誌</h2>
-                                        <ul class="style4">
-                                            <li>
-                                                <h3>2016/04/24 - 雜七雜八的儘管抒發</h3>
-                                                <p>
-                                                    啊！！！第一次拿樣板去改，改得頭好暈，
-                                                    <br>還是是因為還沒吃飯啊...
-                                                </p>
-
-                                            </li>
-                                            <br>
-                                            <li>
-                                                <h3>2016/04/25 - 設計真的好難</h3>
-                                                <p>
-                                                    搞一個Logo，明明只有兩個英文字跟兩種顏
-                                                    <br>色，可是卻弄一下午...還是好好把Coding練
-                                                    <br>好，不碰設計了！
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <h3>2016/05/12 - 網路上的資源都好猛</h3>
-                                                <p>
-                                                    找到好多好厲害的共享資源，可是卻不太
-                                                    <br>會用...更別提要寫了給別人用啊啊！
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <h3>2016/05/30 - 第一次自己設計演算法</h3>
-                                                <p>
-                                                    雖然是個很簡單的演算法，簡單到我都不
-                                                    <br>好意思稱他為演算法，但還是被我寫的好
-                                                    <br>長一串...重點還不是最短路徑哈哈！
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
-                    	<div id="sidebar" class="4u">
-                        	<div class="row">
-                                <section id="box1" class="6u">
-                                    <h2>上半學期作品</h2>
-                                    <ul class="style4">
-                                        <li class="first"><a href="firstHalfOfTerm1-1.html">Where to go</a></li>
-                                        <li><a href="firstHalfOfTerm1-2.html">The coming day</a></li>
-                                        <li><a href="firstHalfOfTerm1-3.html">Someone with you</a></li>
-                                    </ul>
-                                </section>
-                                <section class="6u">
-                                    <h2>下半學期作品</h2>
-                                    <ul class="style4">
-                                        <li class="first"><a href="nextHalfOfTerm2-1.html">VideoController</a></li>
-                                        <li><a href="nextHalfOfTerm2-2.html">Ballman's world</a></li>
-                                        <li><a href="nextHalfOfTerm2-3.html">Coming soon...</a></li>
-                                    </ul>
-                                </section>
-                            </div>
-                            <section id="box2">
-                                <h2 class="fa fa-tags">好用的教學網站</h2>
-                                <ul class="style2">
-                                    <li class="first">
-                                        <p><a href="http://www.w3schools.com/" target=_new><img src="images/link_pic01.png" alt="W3Schools" style="border-radius: 30% 30% 30% 30%; opacity: 0.8">W3Schools：關於html, CSS, Js的資訊與範例</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="https://github.com/" target=_new><img src="images/link_pic02.png" alt="Github" style="border-radius: 30% 30% 30% 30%; opacity: 0.8">Github：開源平台，可以用來存放網站</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="http://zh-tw.learnlayout.com/" target=_new><img src="images/link_pic03.png" alt="learnlayout" style="border-radius: 30% 30% 30% 30%; opacity: 0.8">learnlayout：學習CSS版面配置相關</a></p>
-                                    </li>
-                                    <li>
-                                        <p><a href="http://www.oxxostudio.tw/" target=_new><img src="images/link_pic04.png" alt="oxxostudio" style="border-radius: 30% 30% 30% 30%; opacity: 0.8">oxxostudio：生動的網頁學習筆記</a></p>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
-                    
-                    </div>
-                </div>
-            </div>
-            
-		<!-- /Page -->
-
-		<!-- Copyright -->
-            <div id="copyright" class="container">
-                Contact me:&nbsp;&nbsp;<a href="https://www.facebook.com/profile.php?id=1350961121" target=_new>Facebook</a> or <a href="mailto:terroson8422@gmail.com?subject=About_HTML_HW3">Gmail</a><br>
-                Images: <a href="https://www.google.com.tw/imghp?hl=zh-TW&tab=wi&ei=CZYcV81Pg7LSBLL5nrgH&ved=0EKouCBIoAQ" target=_new>Google</a>
-            </div>
-
-
-
-    </body>
+        <canvas id="myCanvas" 
+                width="600" height="600"
+                style="border:2px solid black">
+        </canvas><br>
+		<div align="center">
+			<a href="direction.html" style="font-size:24px">「程式說明頁面點此」</a>
+			<br><br>
+			<span style="font-size: 24px; font-weight: bold;">觸控螢幕控制區：</span>
+			<br>
+			<img id="btnUp" src="Images/direction_up.png" style="width:60px; height:60px; margin-bottom:25px;">
+			<br>
+			<img id="btnLeft" src="Images/direction_left.png" style="width:60px; height:60px; margin-right:25px;">
+			<img id="btnDown" src="Images/direction_down.png" style="width:60px; height:60px;">
+			<img id="btnRight" src="Images/direction_right.png" style="width:60px; height:60px; margin-left:25px;">
+		</div>
+    </div>
+</body>
 </html>
