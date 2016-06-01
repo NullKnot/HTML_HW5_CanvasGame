@@ -56,24 +56,44 @@ window.onload=function(){
     c.onmousedown=mapOnClick;   //讓玩家點擊初始位置
     window.onkeydown=toKeyCode; //設定鍵盤移動事件
 	btnUp.onclick=function(){
+		if(gameOver){
+			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			return;
+		}
+		
 		if(playerExist){
         	move(38);
     	}else{
         	talkBox.innerHTML="請先放置角色！"
     	}};
 	btnLeft.onclick=function(){
+		if(gameOver){
+			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			return;
+		}
+		
 		if(playerExist){
         	move(37);
     	}else{
         	talkBox.innerHTML="請先放置角色！"
     	}};
 	btnDown.onclick=function(){
+		if(gameOver){
+			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			return;
+		}
+		
 		if(playerExist){
         	move(40);
     	}else{
         	talkBox.innerHTML="請先放置角色！"
     	}};
 	btnRight.onclick=function(){
+		if(gameOver){
+			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			return;
+		}
+		
 		if(playerExist){
         	move(39);
     	}else{
@@ -132,6 +152,16 @@ function putAllBlock(){
             mapArray[(j*10+i)] = blockArray[j];
         }
     }
+	//如果玩家跟電腦在偶數行，則讓至少一個破口出現在其當前位置
+	var tempBlock;
+	if(currentImgComputerX%2==0){
+		tempBlock=currentImgComputerY*10+currentImgComputerX;
+		mapArray[tempBlock]=0;
+	}
+	if(currentImgMainX%2==0){
+		tempBlock=(currentImgMainY/unitHeight)*10 + currentImgMainX/unitWidth;
+		mapArray[tempBlock]=0;
+	}
     drawBlock();
 }
 
@@ -146,9 +176,16 @@ function drawBlock(){
 }
 
 function mapOnClick(event){
-    if(!playerExist){
+    if(gameOver){
+		alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+		return;
+	}
+	
+	if(!playerExist){
         touchGridNum=Math.floor(event.offsetX/unitWidth) + Math.floor((event.offsetY/unitHeight))*10;
         if(mapArray[touchGridNum]==0){
+			difficultControl.disabled="disabled";
+			scoreControl.disabled="disabled";
             cxt.drawImage(imgMain, 90, 90, 310, 362, (touchGridNum%10)*unitWidth, Math.floor(touchGridNum/10)*unitHeight, unitWidth, unitHeight);  
             talkBox.innerHTML="";
             playerExist=true;
@@ -160,7 +197,7 @@ function mapOnClick(event){
             makeGoal();
 			timmer=setInterval(computerMove,difficultLevel);
         }else{
-            talkBox.innerHTML="BallMan不能站在石頭上:（";
+            talkBox.innerHTML="BallMan不能站在石頭上...";
         }
     }else{
         talkBox.innerHTML="不能重複放置角色";
@@ -169,14 +206,43 @@ function mapOnClick(event){
 }
 
 function makeGoal(){
-	if(score_computer==scoreLevel && !gameOver){
+	switch(lastKeyCode_computer){
+		case 37:
+			cxt.drawImage(imgComputer, 590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+			break;
+		case 38:
+			cxt.drawImage(imgComputer, 1090, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+			break;
+		case 39:
+			cxt.drawImage(imgComputer, 1590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+			break;
+		case 40:
+			cxt.drawImage(imgComputer, 90, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+			break;
+	}
+	switch(lastKeyCode_player){
+		case 37:
+			cxt.drawImage(imgMain, 590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+			break;
+		case 38:
+			cxt.drawImage(imgMain, 1090, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+			break;
+		case 39:
+			cxt.drawImage(imgMain, 1590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+			break;
+		case 40:
+			cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+			break;
+	}
+    
+	if(score_computer>=scoreLevel && !gameOver){
 		gameOver=true
 		talkBox.style.color="brown";
-		talkBox.innerHTML="遊戲結束！ >>電腦獲勝";
+		talkBox.innerHTML="遊戲結束！ >>電腦獲勝（想再次挑戰，請點擊重新開始）";
 		alert("電腦獲勝！");
 		window.clearInterval(timmer);
 		return;
-	}else if(score_player==scoreLevel && !gameOver){
+	}else if(score_player>=scoreLevel && !gameOver){
 		gameOver=true
 		talkBox.style.color="forestgreen";
 		talkBox.innerHTML="遊戲結束！ >>玩家獲勝";
@@ -238,20 +304,7 @@ function computerMove(){
         //電腦吃到目標物
         if(currentImgComputerY==currentGoalY){
             cxt.clearRect(0, 0, 600, 600);
-            switch(lastKeyCode_player){
-				case 37:
-					cxt.drawImage(imgMain, 590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
-					break;
-				case 38:
-					cxt.drawImage(imgMain, 1090, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
-					break;
-				case 39:
-					cxt.drawImage(imgMain, 1590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
-					break;
-				case 40:
-					cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
-					break;
-            }
+          
             score_computer++;
             scoreBoard.innerHTML="比數>> 玩家 "+score_player+"分 : 電腦 "+score_computer+"分";
             talkBox.style.color="brown";
@@ -260,6 +313,20 @@ function computerMove(){
             mapArray[currentGoalY*10+currentGoalX]=0;
             makeGoal();
         }
+		switch(lastKeyCode_player){
+			case 37:
+				cxt.drawImage(imgMain, 590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+				break;
+			case 38:
+				cxt.drawImage(imgMain, 1090, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+				break;
+			case 39:
+				cxt.drawImage(imgMain, 1590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+				break;
+			case 40:
+				cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+				break;
+		}
         switch(lastKeyCode_computer){
 			case 37:
 				cxt.drawImage(imgComputer, 590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
@@ -323,6 +390,20 @@ function computerMove(){
 				}
 				return;
 			}
+			switch(lastKeyCode_player){
+				case 37:
+					cxt.drawImage(imgMain, 590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+				case 38:
+					cxt.drawImage(imgMain, 1090, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+				case 39:
+					cxt.drawImage(imgMain, 1590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+				case 40:
+					cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+            }
             cxt.drawImage(imgComputer, 590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);
             return;
         }
@@ -401,6 +482,20 @@ function computerMove(){
 				}
 				return;
 			}
+			switch(lastKeyCode_player){
+				case 37:
+					cxt.drawImage(imgMain, 590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+				case 38:
+					cxt.drawImage(imgMain, 1090, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+				case 39:
+					cxt.drawImage(imgMain, 1590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+				case 40:
+					cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+					break;
+            }
             cxt.drawImage(imgComputer, 1590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);
             return;
         }
@@ -432,6 +527,21 @@ function computerMove(){
 			lastKeyCode_computer=39;
         }
     }
+	switch(lastKeyCode_player){
+		case 37:			
+		   cxt.drawImage(imgMain, 590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);			
+		   break;		
+	   case 38:	
+		   cxt.drawImage(imgMain, 1090, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);	
+		   break;			
+	   case 39:	
+		   cxt.drawImage(imgMain, 1590, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);	
+		   break;			
+	   case 40:	
+		   cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);	
+		   break;
+				
+   }
     switch(lastKeyCode_computer){
 		case 37:
 			cxt.drawImage(imgComputer, 590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
@@ -446,8 +556,6 @@ function computerMove(){
 			cxt.drawImage(imgComputer, 90, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
 			break;
 	}
-   // console.log(currentImgComputerX+" "+currentImgComputerY+" \n");
-   // console.log(currentImgComputerY);
 }
 
 function toKeyCode(event){
@@ -467,6 +575,23 @@ function move(keyCode){
     
     //如果還沒到達終點才執行
     if(!gameOver){
+		//清掉主角，在新的位置重劃
+        cxt.clearRect(currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+		//避免玩家跟電腦重疊後，電腦會被擦去一個時間格的瞬間
+		switch(lastKeyCode_computer){
+			case 37:
+				cxt.drawImage(imgComputer, 590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+			case 38:
+				cxt.drawImage(imgComputer, 1090, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+			case 39:
+				cxt.drawImage(imgComputer, 1590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+			case 40:
+				cxt.drawImage(imgComputer, 90, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+		}
         //37:左, 38:上, 39:右 40:下
         switch(keyCode){
             case 37:
@@ -477,9 +602,7 @@ function move(keyCode){
                 }else{
                     targetBlock=-1;
                 }
-
-                //清掉主角，在新的位置重劃
-                cxt.clearRect(currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+				
                 if(targetBlock==-1 || mapArray[targetBlock]==8 || mapArray[targetBlock]==9){
                     //判斷無法移動的原因
                     judgeResult(targetBlock, 37);
@@ -498,8 +621,6 @@ function move(keyCode){
                     targetBlock=-1;
                 }
 
-                //清掉主角，在新的位置重劃
-                cxt.clearRect(currentImgMainX, currentImgMainY, unitWidth, unitHeight);
                 if(targetBlock==-1 || mapArray[targetBlock]==8 || mapArray[targetBlock]==9){
                     //判斷無法移動的原因
                     judgeResult(targetBlock, 38);
@@ -517,9 +638,7 @@ function move(keyCode){
                 }else{
                     targetBlock=-1;
                 }
-
-                //清掉主角，在新的位置重劃
-                cxt.clearRect(currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+				
                 if(targetBlock==-1 || mapArray[targetBlock]==8 || mapArray[targetBlock]==9){
                     //判斷無法移動的原因
                     judgeResult(targetBlock, 39);
@@ -538,8 +657,7 @@ function move(keyCode){
                     targetBlock=-1;
                 }
 
-                //清掉主角，在新的位置重劃
-                cxt.clearRect(currentImgMainX, currentImgMainY, unitWidth, unitHeight);
+                
                 if(targetBlock==-1 || mapArray[targetBlock]==8 || mapArray[targetBlock]==9){
                     //判斷無法移動的原因
                     judgeResult(targetBlock, 40);
@@ -578,6 +696,20 @@ function judgeResult(targetBlock,  direction){
                 cxt.drawImage(imgMain, 90, 90, 310, 362, currentImgMainX, currentImgMainY, unitWidth, unitHeight);
                 break;
         }
+		switch(lastKeyCode_computer){
+			case 37:
+				cxt.drawImage(imgComputer, 590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+			case 38:
+				cxt.drawImage(imgComputer, 1090, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+			case 39:
+				cxt.drawImage(imgComputer, 1590, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+			case 40:
+				cxt.drawImage(imgComputer, 90, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);	
+				break;
+		}
 		score_player++;
         scoreBoard.innerHTML="比數>> 玩家"+score_player+" 分 : 電腦"+score_computer+" 分";
         talkBox.style.color="forestgreen";
@@ -602,9 +734,9 @@ function setDifficult(){
 			}
 			break;
 		case "2": 
-			difficultLevel=250;
+			difficultLevel=225;
 			if(playerExist){
-				timmer=setInterval(computerMove, 250);
+				timmer=setInterval(computerMove, 225);
 			}
 			break;
 		case "3": 
@@ -627,5 +759,52 @@ function setScore(){
 		case "3": 
 			scoreLevel=10;
 			break;
+		case "4":
+			scoreLevel=99999;
+			break;
 	}
+}
+
+function gameRestart(){
+	difficultControl.disabled="";
+	scoreControl.disabled="";
+	difficultControl.value="1";
+	scoreControl.value="1";
+	difficultLevel=400;
+	scoreLevel=5;
+	score_computer=0;
+	score_player=0
+    scoreBoard.innerHTML="比數>> 玩家 "+score_player+"分 : 電腦 "+score_computer+"分";
+    talkBox.style.color="forestgreen";
+	talkBox.innerHTML="請選擇遊戲設定，並點擊地圖放置角色";     
+	clearInterval(timmer);
+	gameOver=false;
+	playerExist=false;
+	
+	cxt.clearRect(0, 0, 600, 600);     
+	imgComputer.src="Images/BallMan_red.png";
+	imgMountain.src="Images/material.png";
+	initView();
+}
+
+function gameDescription(){
+	alert("--------------------------------------------------"+
+		 "\n1.遊戲介紹：\n"+
+		 "\n這是個BallMans要去爭奪神奇布丁的魔幻世界，\n"+
+		 "\n在決定完遊戲設定後，點擊地圖上沒有石頭的位置，\n"+
+		 "\n便會在該位置產生由你來控制的綠色BallMan，\n"+
+		 "\n同時紅色BallMan也會開始出發尋找布丁，\n"+
+		 "\n最後由獲得最多布丁的BallMan獲勝！\n"+
+		 "\n（提醒：當布丁被吃掉後，會釋放魔力讓地圖改變，"+
+		 "\n並且讓新的布丁出現在地圖上的其他位置...）\n"+
+		 "--------------------------------------------------"+
+		 "\n2.操作方式：\n"+
+		 "\n電腦的控制方式為使用鍵盤的方向鍵，\n"+
+		 "\n行動裝置的控制方式為點擊下方的方向圖示，\n"+
+		 "\n在達到勝利條件分出勝負後，如還想再繼續進行遊玩，\n"+
+		 "\n請按下地圖右上方的重新開始按鈕，即可開始新的遊戲。\n"+
+		 "\n（提醒：一旦在開始遊戲後，便無法更動任何遊戲設定，"+
+		 "\n如要更換設定，請按下重新開始鈕來開始新的一場遊戲）\n\n"+
+		 "--------------------------------------------------"+
+		 "\n說明到此為止，趕快開始搶奪布丁吧！");
 }

@@ -1,4 +1,5 @@
 <!doctype html>
+<!--防止螢幕雙擊等事件-->
 <meta name="viewport" content="user-scalable=0"/>
 <html>
 <head>
@@ -9,29 +10,35 @@
 </head>
 <body>
     <div align="center">
-		<p id="talkBox" style="height:20px">請點擊地圖放置角色</p>
+		<p id="talkBox" style="height:20px">請選擇遊戲設定，並點擊地圖放置角色</p>
 		<span id="scoreBoard">比數>> 玩家 0分 : 電腦 0分</span>
-		<br>
-		<span style="font-size: 18px;">電腦強度：</span>
+		
+		<div>
+		<span style="font-size: 18px;">遊戲難度：</span>
 		<select id="difficultControl"  onchange="setDifficult()">
-            <option value="1">入門</option>        
-            <option value="2">老手</option>       
+            <option value="1">休閒</option>        
+            <option value="2">刺激</option>       
             <option value="3">瘋狂</option>     
 		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<span style="font-size: 18px;">勝利條件：</span>
 		<select id="scoreControl"  onchange="setScore()">
             <option value="1">先得5分</option>        
             <option value="2">先得7分</option>       
-            <option value="3">先得10分</option>     
+            <option value="3">先得10分</option>
+			<option value="4">無限(99999分)</option>
 		</select>
-		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="遊戲說明" onclick="gameDescription()" style="font-size:16px; height:25px;margin-bottom:5px;">
+		<input type="button" value="重新開始" onclick="gameRestart()" style="font-size:16px; height:25px;margin-bottom:5px;">
+		</div>
         <canvas id="myCanvas" 
                 width="600" height="600"
                 style="border:2px solid black">
         </canvas><br>
 		<div align="center">
+			<a href="direction.html" style="font-size:24px">「程式說明頁面點此」</a>
+			<br><br>
 			<span style="font-size: 24px; font-weight: bold;">觸控螢幕控制區：</span>
 			<br>
 			<img id="btnUp" src="Images/direction_up.png" style="width:60px; height:60px; margin-bottom:25px;">
