@@ -570,6 +570,11 @@ function toKeyCode(event){
 function move(keyCode){
     var targetImgX, targetImgY, targetBlock;
     
+	if(keyCode!=37&keyCode!=38&keyCode!=39&keyCode!=40){
+		talkBox.style.color="forestgreen";
+		talkBox.innerHTML="請用鍵盤方向鍵或地圖下方按鈕移動！";     
+		return;
+	}
     lastKeyCode_player=keyCode;
     
     //如果還沒到達終點才執行
