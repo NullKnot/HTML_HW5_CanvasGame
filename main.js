@@ -58,7 +58,9 @@ window.onload=function(){
     window.onkeydown=toKeyCode; //設定鍵盤移動事件
 	btnUp.onclick=function(){
 		if(gameOver){
-			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+			alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
 			return;
 		}
 		
@@ -69,7 +71,9 @@ window.onload=function(){
     	}};
 	btnLeft.onclick=function(){
 		if(gameOver){
-			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+			alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
 			return;
 		}
 		
@@ -80,7 +84,9 @@ window.onload=function(){
     	}};
 	btnDown.onclick=function(){
 		if(gameOver){
-			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+			alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
 			return;
 		}
 		
@@ -91,7 +97,9 @@ window.onload=function(){
     	}};
 	btnRight.onclick=function(){
 		if(gameOver){
-			alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+			alert("遊戲已結束，想再次挑戰請點擊重新開始！");		
 			return;
 		}
 		
@@ -178,7 +186,9 @@ function drawBlock(){
 
 function mapOnClick(event){
     if(gameOver){
-		alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+		talkBox.style.color="forestgreen";
+		talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+		alert("遊戲已結束，想再次挑戰請點擊重新開始！");		
 		return;
 	}
 	
@@ -586,7 +596,12 @@ function move(keyCode){
 	
 	if(keyCode!=37&keyCode!=38&keyCode!=39&keyCode!=40){
 		talkBox.style.color="forestgreen";
-		talkBox.innerHTML="請用鍵盤方向鍵或地圖下方按鈕移動！";     
+		talkBox.innerHTML="請用鍵盤方向鍵或地圖下方按鈕移動！"; 
+		if(gameOver){
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+			alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
+		}
 		return;
 	}
 		
@@ -845,6 +860,8 @@ function pauseOrResume(){
 			}
 		}
 	}else{
-		alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+		talkBox.style.color="forestgreen";
+		talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+		alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
 	}
 }
