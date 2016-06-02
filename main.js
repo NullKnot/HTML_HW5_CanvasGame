@@ -1,4 +1,4 @@
-var c, cxt, talkBox, score_player, score_computer, scoreBoard;
+var c, cxt, talkBox, score_player, score_computer, scoreBoard, pauseOrResumeBtn;
 var boarderWidth, borderHeight, unitWidth, unitHeight;   //邊界的長寬，與單位的長寬
 var mapArray, blockArray;   
 //mapArray:存放地圖所有資訊（0:可通過、1:角色A、2:角色B（程式控制）、8:目標、9:障礙）
@@ -13,13 +13,14 @@ var currentImgComputerX, currentImgComputerY, goalDirection, lastKeyCode_compute
 var currentGoalX, currentGoalY;
 var btnUp, btnLeft, btnDown, btnRight;
 var timmer; 
-var difficultControl, difficultLevel, scoreLevel;
+var difficultControl, difficultLevel, scoreLevel, isPaused;
 
 window.onload=function(){
     c=document.getElementById("myCanvas");
     cxt=c.getContext("2d");
     talkBox=document.getElementById("talkBox");
     scoreBoard=document.getElementById("scoreBoard");
+	pauseOrResumeBtn=document.getElementById("pauseOrResumeBtn");
 	btnUp=document.getElementById("btnUp");
 	btnLeft=document.getElementById("btnLeft");
 	btnDown=document.getElementById("btnDown");
@@ -39,6 +40,7 @@ window.onload=function(){
     score_computer=0;
 	difficultLevel=400;
 	scoreLevel=5;
+	isPaused=true;
     
     imgMountain=new Image();
     imgMountain.src="Images/material.png";
@@ -183,6 +185,7 @@ function mapOnClick(event){
 	if(!playerExist){
         touchGridNum=Math.floor(event.offsetX/unitWidth) + Math.floor((event.offsetY/unitHeight))*10;
         if(mapArray[touchGridNum]==0){
+			isPaused=false;
 			difficultControl.disabled="disabled";
 			scoreControl.disabled="disabled";
             cxt.drawImage(imgMain, 90, 90, 310, 362, (touchGridNum%10)*unitWidth, Math.floor(touchGridNum/10)*unitHeight, unitWidth, unitHeight);  
@@ -561,6 +564,11 @@ function toKeyCode(event){
     event.preventDefault();//避免掉網頁原始預設的行為
     if(playerExist){
         var keyCode=event.keyCode;
+		//如果玩家存在且按下了P鍵
+		if(playerExist&&event.keyCode==80){
+			pauseOrResume();
+			return;
+		}
         move(keyCode);
     }else{
         talkBox.innerHTML="請先放置角色！"
@@ -570,11 +578,18 @@ function toKeyCode(event){
 function move(keyCode){
     var targetImgX, targetImgY, targetBlock;
     
+	//如果狀態是暫停，則回復遊戲
+	if(isPaused){
+		pauseOrResume();
+		return;
+	}
+	
 	if(keyCode!=37&keyCode!=38&keyCode!=39&keyCode!=40){
 		talkBox.style.color="forestgreen";
 		talkBox.innerHTML="請用鍵盤方向鍵或地圖下方按鈕移動！";     
 		return;
 	}
+		
     lastKeyCode_player=keyCode;
     
     //如果還沒到達終點才執行
@@ -733,27 +748,15 @@ function setDifficult(){
 	switch(difficultControl.value){
 		case "1": 
 			difficultLevel=400;
-			if(playerExist){
-				timmer=setInterval(computerMove, 400);
-			}
 			break;
 		case "2": 
 			difficultLevel=250;
-			if(playerExist){
-				timmer=setInterval(computerMove, 250);
-			}
 			break;
 		case "3": 
 			difficultLevel=150;
-			if(playerExist){
-				timmer=setInterval(computerMove, 150);
-			}
 			break;
 		case "4":
 			difficultLevel=100;
-			if(playerExist){
-				timmer=setInterval(computerMove, 100);
-			}
 			break;
 	}
 }
@@ -773,28 +776,6 @@ function setScore(){
 			scoreLevel=99999;
 			break;
 	}
-}
-
-function gameRestart(){
-	difficultControl.disabled="";
-	scoreControl.disabled="";
-	difficultControl.value="1";
-	scoreControl.value="1";
-	difficultLevel=400;
-	scoreLevel=5;
-	score_computer=0;
-	score_player=0
-    scoreBoard.innerHTML="比數>> 玩家 "+score_player+"分 : 電腦 "+score_computer+"分";
-    talkBox.style.color="forestgreen";
-	talkBox.innerHTML="請選擇遊戲設定，並點擊地圖放置角色";     
-	clearInterval(timmer);
-	gameOver=false;
-	playerExist=false;
-	
-	cxt.clearRect(0, 0, 600, 600);     
-	imgComputer.src="Images/BallMan_red.png";
-	imgMountain.src="Images/material.png";
-	initView();
 }
 
 function gameDescription(){
@@ -819,4 +800,51 @@ function gameDescription(){
 		 "\n如要更換設定，請按下重新開始鈕來開始新的一場遊戲）\n"+
 		 "--------------------------------------------------"+
 		 "\n說明到此為止，趕快開始搶奪布丁吧！");
+}
+
+function gameRestart(){
+	//解除選單的鎖定
+	difficultControl.disabled="";
+	scoreControl.disabled="";
+	pauseOrResumeBtn.value="暫停"
+
+	score_computer=0;
+	score_player=0
+    scoreBoard.innerHTML="比數>> 玩家 "+score_player+"分 : 電腦 "+score_computer+"分";
+    talkBox.style.color="forestgreen";
+	talkBox.innerHTML="如無需更改設定，請直接點擊地圖放置角色";     
+	clearInterval(timmer);
+	isPaused=true;
+	gameOver=false;
+	playerExist=false;
+	
+	cxt.clearRect(0, 0, 600, 600);     
+	imgComputer.src="Images/BallMan_red.png";
+	imgMountain.src="Images/material.png";
+	initView();
+}
+
+function pauseOrResume(){
+	if(!gameOver){
+		if(!isPaused){
+			isPaused=true;
+			clearInterval(timmer);
+			pauseOrResumeBtn.value="按P繼續"
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲暫停！按P或任意鍵回復遊戲";     
+		}else{
+			if(playerExist){
+				isPaused=false;
+				timmer=setInterval(computerMove, difficultLevel);
+				pauseOrResumeBtn.value="按P暫停"
+				talkBox.style.color="forestgreen";
+				talkBox.innerHTML="遊戲繼續！";
+			}else{
+				talkBox.style.color="forestgreen";
+				talkBox.innerHTML="請先放置角色！"
+			}
+		}
+	}else{
+		alert("遊戲已結束，想再次挑戰請點擊重新開始");	
+	}
 }

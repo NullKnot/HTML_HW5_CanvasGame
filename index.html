@@ -14,22 +14,24 @@
 		<span id="scoreBoard">比數>> 玩家 0分 : 電腦 0分</span>
 		
 		<div>
-		<span style="font-size: 18px;">遊戲難度：</span>
+		<span style="font-size: 18px;">遊戲難度:&nbsp;</span>
 		<select id="difficultControl"  onchange="setDifficult()">
             <option value="1">入門</option>        
             <option value="2">休閒</option>       
             <option value="3">刺激</option>
 			<option value="4">瘋狂</option>
 		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span style="font-size: 18px;">勝利條件：</span>
+		&nbsp;&nbsp;&nbsp;
+		<span style="font-size: 18px;">勝利條件:&nbsp;</span>
 		<select id="scoreControl"  onchange="setScore()">
             <option value="1">先得5分</option>        
             <option value="2">先得7分</option>       
             <option value="3">先得10分</option>
-			<option value="4">無限(99999分)</option>
+			<option value="4">吃到飽</option>
 		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		
+		<input type="button" value="按P暫停" onclick="pauseOrResume()" id="pauseOrResumeBtn" style="background:darkseagreen; font-size:16px; height:25px;margin-bottom:5px;">
 		<input type="button" value="遊戲說明" onclick="gameDescription()" style="background:deepskyblue ; font-size:16px; height:25px;margin-bottom:5px;">
 		<input type="button" value="重新開始" onclick="gameRestart()" style="background:darkorange; font-size:16px; height:25px;margin-bottom:5px;">
 		</div>
