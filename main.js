@@ -130,7 +130,7 @@ function initView(){
             computer_block=Math.floor(Math.random()*100);  
         }
         mapArray[computer_block]=2;
-        
+        lastKeyCode_computer=40;
         currentImgComputerX=computer_block%10;
         currentImgComputerY=Math.floor(computer_block/10);
         cxt.drawImage(imgComputer, 90, 90, 310, 362, currentImgComputerX*unitWidth, currentImgComputerY*unitHeight, unitWidth, unitHeight);
@@ -208,10 +208,15 @@ function mapOnClick(event){
             
             makeGoal();
 			timmer=setInterval(computerMove,difficultLevel);
-        }else{
+        }else if(mapArray[touchGridNum]==2){
+			talkBox.style.color="brown";
+			talkBox.innerHTML="\"欸...不要跟我擠啦\"";	
+		}else{
+			talkBox.style.color="forestgreen";
             talkBox.innerHTML="BallMan不能站在石頭上...";
         }
     }else{
+		talkBox.style.color="forestgreen";
         talkBox.innerHTML="不能重複放置角色";
     }
  //   console.log((currentImgMainX/unitWidth)%10);
@@ -860,7 +865,8 @@ function gameRestart(){
 	gameOver=false;
 	playerExist=false;
 	
-	cxt.clearRect(0, 0, 600, 600);     
+	cxt.clearRect(0, 0, 600, 600);    
+	initGameValue();
 	imgComputer.src="Images/BallMan_red.png";
 	imgMountain.src="Images/material.png";
 	initView();
