@@ -793,6 +793,33 @@ function setScore(){
 	}
 }
 
+function pauseOrResume(){
+	if(!gameOver){
+		if(!isPaused){
+			isPaused=true;
+			clearInterval(timmer);
+			pauseOrResumeBtn.value="按P繼續"
+			talkBox.style.color="forestgreen";
+			talkBox.innerHTML="遊戲暫停！按P或任意鍵回復遊戲";     
+		}else{
+			if(playerExist){
+				isPaused=false;
+				timmer=setInterval(computerMove, difficultLevel);
+				pauseOrResumeBtn.value="按P暫停"
+				talkBox.style.color="forestgreen";
+				talkBox.innerHTML="遊戲繼續！";
+			}else{
+				talkBox.style.color="forestgreen";
+				talkBox.innerHTML="請先放置角色！"
+			}
+		}
+	}else{
+		talkBox.style.color="forestgreen";
+		talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
+		alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
+	}
+}
+
 function gameDescription(){
 	alert("注意！第一次載入網頁時要等候圖片讀取，\n"+
 		 "如有圖片沒有即時出現的情況，麻煩請重新整理即可！\n"+
@@ -821,7 +848,7 @@ function gameRestart(){
 	//解除選單的鎖定
 	difficultControl.disabled="";
 	scoreControl.disabled="";
-	pauseOrResumeBtn.value="暫停"
+	pauseOrResumeBtn.value="按P暫停"
 
 	score_computer=0;
 	score_player=0
@@ -837,31 +864,4 @@ function gameRestart(){
 	imgComputer.src="Images/BallMan_red.png";
 	imgMountain.src="Images/material.png";
 	initView();
-}
-
-function pauseOrResume(){
-	if(!gameOver){
-		if(!isPaused){
-			isPaused=true;
-			clearInterval(timmer);
-			pauseOrResumeBtn.value="按P繼續"
-			talkBox.style.color="forestgreen";
-			talkBox.innerHTML="遊戲暫停！按P或任意鍵回復遊戲";     
-		}else{
-			if(playerExist){
-				isPaused=false;
-				timmer=setInterval(computerMove, difficultLevel);
-				pauseOrResumeBtn.value="按P暫停"
-				talkBox.style.color="forestgreen";
-				talkBox.innerHTML="遊戲繼續！";
-			}else{
-				talkBox.style.color="forestgreen";
-				talkBox.innerHTML="請先放置角色！"
-			}
-		}
-	}else{
-		talkBox.style.color="forestgreen";
-		talkBox.innerHTML="遊戲已結束，想再次挑戰請點擊重新開始！"; 
-		alert("遊戲已結束，想再次挑戰請點擊重新開始！");	
-	}
 }
